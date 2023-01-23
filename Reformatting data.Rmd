@@ -1,0 +1,250 @@
+---
+title: "Reformatting data"
+author: "Atifullah Shinwari"
+date: "2023-01-23"
+output: html_document
+---
+
+```{r,echo=FALSE}
+ # install.packages("readxl")
+library(readxl)
+
+Lashkargah_AT <- read_excel("D:/Chill R Tutorial/ChillR-basic/AllBasin/Lashkargah_AT .xlsx",range = "A7:AK38",.name_repair = tolower, sheet = as.character(2008))
+  
+ Station <- Lashkargah_AT # Here we change the name of the station into (station) in order to ease the use of code for other station and avoid the time to rename each name.
+  
+  colnames(Station)[1] <- "Day"
+  
+  jan <-
+    data.frame(Month = 1,
+               Day = Station[1],
+               Tmin = Station[2],
+               Tmax = Station[3],
+               Tmean = Station[4])
+  feb <-
+    data.frame(Month = 2,
+               Day = Station[1],
+               Tmin = Station[5],
+               Tmax = Station[6],
+               Tmean = Station[7])
+  mar <-
+    data.frame(Month = 3,
+               Day = Station[1],
+               Tmin = Station[8],
+               Tmax = Station[9],
+               Tmean = Station[10])
+  apr <-
+    data.frame(Month = 4,
+               Day = Station[1],
+               Tmin = Station[11],
+               Tmax = Station[12],
+               Tmean = Station[13])
+  mai <-
+    data.frame(Month = 5,
+               Day = Station[1],
+               Tmin = Station[14],
+               Tmax = Station[15],
+               Tmean = Station[16])
+  jun <-
+    data.frame(Month = 6,
+               Day = Station[1],
+               Tmin = Station[17],
+               Tmax = Station[18],
+               Tmean = Station[19])
+  jul <-
+    data.frame(Month = 7,
+               Day = Station[1],
+               Tmin = Station[20],
+               Tmax = Station[21],
+               Tmean = Station[22])
+  aug <-
+    data.frame(Month = 8,
+               Day = Station[1],
+               Tmin = Station[23],
+               Tmax = Station[24],
+               Tmean = Station[25])
+  sep <-
+    data.frame(Month = 9,
+               Day = Station[1],
+               Tmin = Station[26],
+               Tmax = Station[27],
+               Tmean = Station[28])
+  okt <-
+    data.frame(Month = 10,
+               Day = Station[1],
+               Tmin = Station[29],
+               Tmax = Station[30],
+               Tmean = Station[31])
+  nov <-
+    data.frame(Month = 11,
+               Day = Station[1],
+               Tmin = Station[32],
+               Tmax = Station[33],
+               Tmean = Station[34])
+  dez <-
+    data.frame(Month = 12,
+               Day = Station[1],
+               Tmin = Station[35],
+               Tmax = Station[36],
+               Tmean = Station[37])
+  
+  Station <- rbind(jan,feb,mar,apr,mai,jun,jul,aug,sep,okt,nov,dez)
+  
+  Station <- 
+    Station %>% 
+    mutate(Year = 2008) %>% 
+    rename(Tmin = min,
+           Tmax = max,
+           Tmean = avg) 
+  
+  
+  Station$Date <- as.Date(paste0(Station$Year,"-",Station$Month,"-",Station$Day))
+  Station <- dplyr::filter(Station, !is.na(Date))
+  
+  #Lashkargah$Prec <- NA 
+  
+  Lashkargah <- Station[c(7,6,1,2,3,4,5)]#Re ordering the columns
+
+#Now looping the same for other years:
+
+years <- c(2008:2022)
+datasets <- paste("Lashkargah_AT", years, sep = "_")
+
+for (i in 1:length(years)) {
+  
+  Lashkargah_AT <- read_excel("D:/Chill R Tutorial/ChillR-basic/AllBasin/Lashkargah_AT .xlsx",range = "A7:AK38",.name_repair = tolower, sheet = as.character(years[i]))
+  
+  colnames(Lashkargah_AT)[1] <- "Day"
+  
+  jan <-
+    data.frame(Month = 1,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[2],
+               Tmax = Lashkargah_AT[3],
+               Tmean = Lashkargah_AT[4])
+  feb <-
+    data.frame(Month = 2,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[5],
+               Tmax = Lashkargah_AT[6],
+               Tmean = Lashkargah_AT[7])
+  mar <-
+    data.frame(Month = 3,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[8],
+               Tmax = Lashkargah_AT[9],
+               Tmean = Lashkargah_AT[10])
+  apr <-
+    data.frame(Month = 4,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[11],
+               Tmax = Lashkargah_AT[12],
+               Tmean = Lashkargah_AT[13])
+  mai <-
+    data.frame(Month = 5,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[14],
+               Tmax = Lashkargah_AT[15],
+               Tmean = Lashkargah_AT[16])
+  jun <-
+    data.frame(Month = 6,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[17],
+               Tmax = Lashkargah_AT[18],
+               Tmean = Lashkargah_AT[19])
+  jul <-
+    data.frame(Month = 7,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[20],
+               Tmax = Lashkargah_AT[21],
+               Tmean = Lashkargah_AT[22])
+  aug <-
+    data.frame(Month = 8,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[23],
+               Tmax = Lashkargah_AT[24],
+               Tmean = Lashkargah_AT[25])
+  sep <-
+    data.frame(Month = 9,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[26],
+               Tmax = Lashkargah_AT[27],
+               Tmean = Lashkargah_AT[28])
+  okt <-
+    data.frame(Month = 10,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[29],
+               Tmax = Lashkargah_AT[30],
+               Tmean = Lashkargah_AT[31])
+  nov <-
+    data.frame(Month = 11,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[32],
+               Tmax = Lashkargah_AT[33],
+               Tmean = Lashkargah_AT[34])
+  dez <-
+    data.frame(Month = 12,
+               Day = Lashkargah_AT[1],
+               Tmin = Lashkargah_AT[35],
+               Tmax = Lashkargah_AT[36],
+               Tmean = Lashkargah_AT[37])
+  
+  Lashkargah <- rbind(jan,feb,mar,apr,mai,jun,jul,aug,sep,okt,nov,dez)
+  
+  Lashkargah <- 
+    Lashkargah %>% 
+    mutate(Year = years[i]) %>% 
+    rename(Tmin = min,
+           Tmax = max,
+           Tmean = avg) 
+  
+  
+  Lashkargah$Date <- as.Date(paste0(Lashkargah$Year,"-",Lashkargah$Month,"-",Lashkargah$Day))
+  Lashkargah <- dplyr::filter(Lashkargah, !is.na(Date))
+  
+  Lashkargah$Prec <- NA 
+  
+  Lashkargah <- Lashkargah[c(7,6,1,2,3,4,5,8)]#Re ordering the columns
+  
+  assign(datasets[i],
+         Lashkargah)
+  
+}
+
+Lashkargah <- rbind(Lashkargah_AT_2008,
+                    Lashkargah_AT_2009,
+                    Lashkargah_AT_2010,
+                    Lashkargah_AT_2011,
+                    Lashkargah_AT_2012,
+                    Lashkargah_AT_2013,
+                    Lashkargah_AT_2014,
+                    Lashkargah_AT_2015,
+                    Lashkargah_AT_2016,
+                    Lashkargah_AT_2017,
+                    Lashkargah_AT_2018,
+                    Lashkargah_AT_2019,
+                    Lashkargah_AT_2020,
+                    Lashkargah_AT_2021,
+                    Lashkargah_AT_2022)
+rm(Lashkargah_AT,
+   Lashkargah_AT_2008,
+   Lashkargah_AT_2009,
+   Lashkargah_AT_2010,
+   Lashkargah_AT_2011,
+   Lashkargah_AT_2012,
+   Lashkargah_AT_2013,
+   Lashkargah_AT_2014,
+   Lashkargah_AT_2015,
+   Lashkargah_AT_2016,
+   Lashkargah_AT_2017,
+   Lashkargah_AT_2018,
+   Lashkargah_AT_2019,
+   Lashkargah_AT_2020,
+   Lashkargah_AT_2021,
+   Lashkargah_AT_2022,
+   jan,feb,mar,apr,mai,jun,jul,aug,sep,okt,nov,dez,
+   years,datasets,
+   i)
+
+#dir.create("D:/Chill R Tutorial/ChillR-basic/AllBasin/Lashkargah_AT")
+write.csv(Lashkargah,"D:/Chill R Tutorial/ChillR-basic/AllBasin/Lashkargah_AT_Obs.csv")
